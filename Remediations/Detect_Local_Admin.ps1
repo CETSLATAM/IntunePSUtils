@@ -29,6 +29,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+Source for the initial Script execution Idea: https://stackoverflow.com/a/29434931 by https://stackoverflow.com/users/2102693/bill-stewart (https://creativecommons.org/licenses/by-sa/4.0/)
 #>
 $admin = $null -ne (whoami /groups /fo csv | ConvertFrom-Csv | Where-Object { $_.SID -eq "S-1-5-32-544" })
 if($admin -eq $true){
