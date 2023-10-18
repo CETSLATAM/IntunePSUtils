@@ -32,6 +32,10 @@ SOFTWARE.
 
 #>
 
+
+#LAST CHANCE: PLEASE DO NOT DISABLE IPV6. This is the very last option for troubleshooting. 
+
+
 #Remediation:
 $res = Get-NetAdapterBinding -ComponentID ms_tcpip6
 

@@ -32,14 +32,18 @@ SOFTWARE.
 
 #>
 
+
+#LAST CHANCE: PLEASE DO NOT DISABLE IPV6. This is the very last option for troubleshooting. 
+
+
 $res = Get-NetAdapterBinding -ComponentID ms_tcpip6
-$error = $false
+$errors = $false
 foreach ($adapter in $res){
     if($adapter.Enabled -eq $true){        
-        $error = $true
+        $errors = $true
     }
 }
-if($error){
+if($errors){
     exit 1
     }
 exit 0
