@@ -3,7 +3,7 @@ Title: List and flatten Subscribed User licenses.
 Requires: Graph API, PS Graph SDK 2.10.0
 Author: José Pablo Cortés
 License: MIT
-opyright © 2023 José Pablo Cortés
+Copyright © 2023 José Pablo Cortés
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), 
 to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
