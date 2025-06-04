@@ -5,6 +5,8 @@
 # If the last update was within 40 days, it outputs a message and exits with code 0.
 # taken from https://www.reddit.com/r/Intune/comments/17ls8i2/windows_update_remediation/
 
+
+# update the OS versions as needed
 $CurrentWin10 = "10.0.19045"
 $CurrentWin11 = "10.0.22631"
 

@@ -1,12 +1,17 @@
 # Description: This script checks the Windows OS version and the last update date.
 # It ensures that the OS is at least Windows 10 version 19045 or Windows 11 version 22631.  
-# If the OS version is lower, it outputs the current version and exits with code 1.
+# If the OS version is lower, it outputs the current version and exits with code 1 (Means something to fix).
 # If the last update was more than 40 days ago, it outputs a message and exits with code 1.
-# If the last update was within 40 days, it outputs a message and exits with code 0.
+# If the last update was within 40 days, it outputs a message and exits with code 0 (Means nothing to fix).
 
 #taken from https://www.reddit.com/r/Intune/comments/17ls8i2/windows_update_remediation/
+
+
+# update the OS versions as needed
 $CurrentWin10 = [Version]"10.0.19045"
-$CurrentWin11 = [Version]"10.0.22631"
+$CurrentWin11 = [Version]"10.0.22631"  
+
+
 
 $GetOS = Get-ComputerInfo -property OsVersion
 $OSversion = [Version]$GetOS.OsVersion
