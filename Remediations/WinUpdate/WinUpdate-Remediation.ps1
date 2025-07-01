@@ -146,7 +146,7 @@ try {
     Install-PackageProvider -Name NuGet -Force -Scope AllUsers -ErrorAction SilentlyContinue
     Install-Module -Name PSWindowsUpdate -Force -Scope AllUsers -ErrorAction SilentlyContinue
     Import-Module PSWindowsUpdate -Force -ErrorAction SilentlyContinue
-    Get-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install -AutoReboot -ErrorAction SilentlyContinue | Out-Null
+    Get-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install -ErrorAction SilentlyContinue | Out-Null
     Log "Triggered Windows Update scan and install"
 } catch {
     Log "Failed to trigger Windows Update scan"
