@@ -58,7 +58,7 @@ if ($osVersion -like "*Windows 11*") {
 # Compatibility check
 function Test-Windows11Compatibility {
     $results = @{}
-
+    Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force -ErrorAction SilentlyContinue
     # TPM 2.0
     try {
         $tpm = Get-WmiObject -Namespace "Root\\CIMv2\\Security\\MicrosoftTpm" -Class Win32_Tpm
