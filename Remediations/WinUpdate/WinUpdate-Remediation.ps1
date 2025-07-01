@@ -4,7 +4,7 @@
 # Description:     Nuclear reset of Windows Update settings to allow Windows 11 upgrade.
 #                  This script resets Windows Update settings, stops services, deletes cache, resets registry keys,
 #                  and triggers a Windows Update scan to enable the Windows 11 upgrade offer.
-
+# Notes:           This script is designed to be run with administrative privileges.
 #
 #=============================================================================================================================
 <#
