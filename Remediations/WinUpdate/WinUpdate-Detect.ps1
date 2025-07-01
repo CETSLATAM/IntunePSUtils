@@ -4,6 +4,7 @@
 # Description:     Nuclear reset of Windows Update settings to allow Windows 11 upgrade.
 #                  This script resets Windows Update settings, stops services, deletes cache, resets registry keys,
 #                  and triggers a Windows Update scan to enable the Windows 11 upgrade offer.
+# Notes:           This script is designed to be run with administrative privileges.
 
 #
 #=============================================================================================================================
@@ -47,9 +48,66 @@ function Log {
     "$timestamp - $message" | Out-File -FilePath $logFile -Append -Encoding utf8
 }
 
-# Detection: Check if Windows 11 upgrade is already installed
+# Detection: Check if Windows 11 is already installed
 $osVersion = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").ProductName
 if ($osVersion -like "*Windows 11*") {
-    Log "Windows 11 is already installed. No action required."
-    exit 1
+    Log "Windows 11 is already installed. No remediation needed."
+    exit 0
 }
+
+# Compatibility check
+function Test-Windows11Compatibility {
+    $results = @{}
+
+    # TPM 2.0
+    try {
+        $tpm = Get-WmiObject -Namespace "Root\\CIMv2\\Security\\MicrosoftTpm" -Class Win32_Tpm
+        $results["TPM_2_0"] = $tpm.SpecVersion -match "2.0"
+    } catch {
+        $results["TPM_2_0"] = $false
+    }
+
+    # Secure Boot
+    try {
+        $results["SecureBoot"] = Confirm-SecureBootUEFI -ErrorAction SilentlyContinue
+    } catch {
+        $results["SecureBoot"] = $false
+    }
+
+    # UEFI
+    try {
+        $firmware = (Get-WmiObject -Class Win32_ComputerSystem).BootupState
+        $results["UEFI"] = $firmware -match "EFI"
+    } catch {
+        $results["UEFI"] = $false
+    }
+
+    # RAM
+    try {
+        $ramGB = [math]::Round((Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1GB, 2)
+        $results["RAM_OK"] = $ramGB -ge 4
+    } catch {
+        $results["RAM_OK"] = $false
+    }
+
+    # Storage
+    try {
+        $storageGB = [math]::Round((Get-PSDrive -Name C).Free / 1GB, 2)
+        $results["Storage_OK"] = $storageGB -ge 64
+    } catch {
+        $results["Storage_OK"] = $false
+    }
+
+    return $results
+}
+
+$compat = Test-Windows11Compatibility
+$compat.Keys | ForEach-Object { Log "$_ check: $($compat[$_])" }
+
+if ($compat.Values -contains $false) {
+    Log "Device does not meet Windows 11 requirements. No Update Possible so no remediation will be run."
+    exit 0
+}
+
+Log "Device is eligible for Windows 11 upgrade. Remediation required."
+exit 1
